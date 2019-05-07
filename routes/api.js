@@ -22,18 +22,18 @@ router.get('/', async (req, res, next) => {
 });
 
 
-router.get('/users/checkAuth', (req, res, next) => {
+router.get('/users/checkAuth', async (req, res, next) => {
     if (req.session.auth) {
         res.send(true)
     } else res.send(false)
 });
 
-router.get('/users/logout', (req, res, next) => {
+router.get('/users/logout', async (req, res, next) => {
     req.session.auth = false;
     res.sendStatus(200)
 });
 
-router.post('/users/reg', (req, res, next) => {
+router.post('/users/reg',async  (req, res, next) => {
    if (req.body && !req.session.auth) {
        let SQL = 'INSERT INTO';
        switch (req.body.type) {
@@ -104,7 +104,7 @@ router.post('/users/login', async (req, res, next) => {
     }
 });
 
-router.get('/orders/getMyOrders', (req, res, next) => {
+router.get('/orders/getMyOrders', async (req, res, next) => {
 	let response = await query(``);
 
 
@@ -116,6 +116,6 @@ function passHash(password) {
 
 function startSession(req, user) {
     req.session.auth = true;
-	switch (user.)
+	// switch (user)
 }
 module.exports = router;
