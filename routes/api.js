@@ -33,7 +33,7 @@ router.get('/users/logout', (req, res, next) => {
     res.sendStatus(200)
 });
 
-router.post('/users/reg', (req, res, next) => {
+router.post('/users/reg', async (req, res, next) => {
    if (req.body && !req.session.auth) {
        let SQL = 'INSERT INTO';
        switch (req.body.type) {
