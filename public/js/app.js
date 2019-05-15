@@ -1,6 +1,3 @@
-// document.onwheel = () => false;
-// document.onkeydown = (e) => { if (e.keyCode >= 32 && e.keyCode <= 40) e.preventDefault(); };
-
 const html = document.querySelector('html');
 const body = document.querySelector('body');
 const btnLogin = document.querySelector('#btn-login');
