@@ -46,38 +46,14 @@ router.post('/users/reg', async (req, res) => {
   if (req.body && !req.session.auth) {
     let SQL = 'INSERT INTO';
     switch (req.body.type) {
-      case 0: SQL += '`clients`'; break;
-      case 1: SQL += '`volunteers`'; break;
-      case 2: SQL += '`drivers`'; break;
+      case '0': SQL += '`clients`'; break;
+      case '1': SQL += '`volunteers`'; break;
+      case '2': SQL += '`drivers`'; break;
       default:
         break;
     }
-    SQL += '(`id`, ';
-
-    // for (const prop of Object.keys(req.body)) {
-    //   SQL += `'${prop}',`;
-    // }
-
-    Object.keys(req.body).forEach((prop) => {
-      SQL += `'${prop}',`;
-    });
-
-    SQL = `${SQL.slice(0, -1)}) VALUES (NULL,`;
-
-    Object.keys(req.body).forEach((propName) => {
-      if (propName === 'password_hash') {
-        SQL += `'${passHash(req.body[propName])}'`;
-      } else SQL += `'${req.body[propName]}',`;
-    });
-
-    // for (const propName of Object.keys(req.body)) {
-    //   if (propName === 'password_hash') {
-    //     SQL += `'${passHash(req.body[propName])}'`;
-    //   } else SQL += `'${req.body[propName]}',`;
-    // }
-
-
-    SQL = `${SQL.slice(0, -1)})`;
+    let password = passHash(req.body.password);
+    SQL += `(\`id\`, \`firstName\`, \`lastName\`, \`surname\`, \`tel\`, \`email\`, \`regTime\`, \`lastEnterTime\`, \`status\`, \`password_hash\`) VALUES (NULL, '${req.body.firstName}', '${req.body.lastName}', '${req.body.surname}', '${req.body.tel}', '${req.body.email}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, '${password}')`;
     try {
       const resp = await query(SQL);
       if (resp) {
