@@ -1,0 +1,41 @@
+GET /api/
+Console.log users
+
+GET /api/users/checkAuth
+Check user auth return true or false
+
+GET /api/users/logout
+Logout user
+
+POST JSON /api/users/reg
+Register user 
+
+POST JSON /api/users/login
+Return JSON {status, reason}
+
+GET URLENCODED /api/users/:id
+Return user by id
+
+GET /api/users/me
+Get my account
+
+GET /api/orders/
+Return all my orders
+
+POST JSON /api/orders/:id
+Edit order by id
+
+GET /api/orders/:id
+Get order from id
+=-
+POST JSON /api/orders/add
+Create order
+
+GET /api/orders/my
+Return all user orders
+
+DELETE /api/orders:id
+Remove order 
+
+GET /api/orders/checkStatus/:id
+Check status of orders

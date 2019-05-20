@@ -31,7 +31,6 @@ router.get('/', async (req, res) => {
   res.send(200);
 });
 
-
 router.get('/users/checkAuth', async (req, res) => {
   if (req.session.auth) {
     res.send(true);
@@ -160,5 +159,166 @@ router.post('/users/login', async (req, res) => {
 // router.get('/orders/getMyOrders', async (req, res, next) => {
 //   const response = await query('');
 // });
+
+router.get('/users/:id', async (req, res) => {
+  if (req.body) {
+    let table = '';
+    switch (req.body.type) {
+      case '0': table = '`clients`'; break;
+      case '1': table = '`volunteers`'; break;
+      case '2': table = '`drivers`'; break;
+      default:
+      break;
+    }
+    try {
+      const users = await query(`SELECT * FROM ${table} WHERE \`id\` = '${req.params.id}'`);
+      if (users.length == 0) throw new Error('Нет такого пользователя');  
+      res.json(users);
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } res.json({
+    status: 401,
+    reason: 'Не указан тип пользователя'
+  })
+})
+
+router.get('/users/me', async (req, res) => {
+  if (req.session.auth) {
+    const user = await query(`SELECT * FROM ${req.session.userType} WHERE \`id\` = '${req.session.id}'`);
+    res.json(user)
+  } else res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
+
+router.get('/orders/', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const orders = await query(`SELECT * FROM \`orders\` WHERE \`${req.session.userType.slice(0,-1)}Id\` = '${req.session.id}'`);
+      if (orders.length == 0) throw new Error('У вас нет заказов');  
+      res.json(orders)
+    } catch (err) {
+      res.json({
+        status: 404,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } else res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
+
+router.get('/orders/:id', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const orders = await query(`SELECT * FROM \`orders\` WHERE \`id\` = '${req.params.id}'`);
+      if (orders.length == 0) throw new Error('Нет такого заказа');
+      res.json(orders);
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
+
+router.post('/orders/:id', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const orders = await query(`UPDATE \`orders\` SET services='${req.body.services}', status='${req.body.status}', clientId='${req.body.clientId}', driverId='${req.body.clientId}', volunteerId='${req.body.volunteerId}', payload='${req.body.payload}' WHERE \`id\` = '${req.params.id}'`);
+      console.log(orders);
+      if (orders.changedRows == 0) throw new Error('Нет такого заказа');
+      res.json({status:200});
+    }catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
+
+router.post('/orders/add', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const order = await query(`INSERT INTO \`orders\` services='${req.body.services}', status='${req.body.status}', clientId='${req.body.clientId}', driverId='${req.body.clientId}', volunteerId='${req.body.volunteerId}', payload='${req.body.payload}' WHERE \`id\` = '${req.params.id}'`);
+      if (order.insertId == 0) throw new Error('Что-то не так, повторите еще раз');
+      res.json({ status: 200 });
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
+
+router.get('/orders/my', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const orders = await query(`SELECT * FROM \`orders\` WHERE ${req.session.userType}Id = '${req.session.id}'`);
+      if (orders.length == 0) throw new Error('У вас еще нет заказов');
+      res.json({ status: 200, orders: orders});
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
+
+router.delete('/orders/:id', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const orders = await query(`SELECT * FROM \`orders\` WHERE ${req.session.userType}Id = '${req.session.id}'`);
+      res.json({ status: 200, orders: orders });
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
+
+router.get('/orders/checkStatus/:id', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const order = await query(`SELECT * FROM \`orders\` WHERE id = '${req.params.id}'`);
+      res.json({ status: 200, status: order.status });
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка'
+      })
+    }
+  } res.json({
+    status: 401,
+    reason: 'Вы не авторизованы'
+  })
+})
 
 module.exports = router;
