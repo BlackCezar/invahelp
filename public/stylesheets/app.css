@@ -300,7 +300,7 @@ header {
 }
 
 .imgTaxi {
-  background: url("img/FIRSTSCREEN/Taxi.png");
+  background: url("../img/FIRSTSCREEN/Taxi.png");
   background-position: center;
   background-size: cover;
   width: 54vw;
@@ -497,13 +497,13 @@ header {
 }
 
 .btnTaxiServices {
-  background: url("img/SERVICETYPE/Taxi/driver.jpg");
+  background: url("../img/SERVICETYPE/Taxi/driver.jpg");
   background-position: center;
   background-size: cover;
 }
 
 .btnVolunteerServices {
-  background: url("img/SERVICETYPE/volunteer/volunteer.jpg");
+  background: url("../img/SERVICETYPE/volunteer/volunteer.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -596,13 +596,13 @@ header {
 }
 
 .btnTaxi {
-  background: url("img/SERVICETYPE/Taxi/taxi.jpg");
+  background: url("../img/SERVICETYPE/Taxi/taxi.jpg");
   background-position: center;
   background-size: cover;
 }
 
 .btnDelivery {
-  background: url("img/SERVICETYPE/delivery.jpg");
+  background: url("../img/SERVICETYPE/delivery.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -831,13 +831,13 @@ header {
 }
 
 .btnVolunteerOtherServices {
-  background: url("img/SERVICETYPE/volunteer/another_help.jpg");
+  background: url("../img/SERVICETYPE/volunteer/another_help.jpg");
   background-position: center;
   background-size: cover;
 }
 
 .btnVolunteerDeliveryService {
-  background: url("img/SERVICETYPE/volunteer/delivery.jpg");
+  background: url("../img/SERVICETYPE/volunteer/delivery.jpg");
   background-position: center;
   background-size: cover;
 }
@@ -884,13 +884,13 @@ header {
 }
 
 .btnVolunteerMedicalAidService {
-  background: url("img/SERVICETYPE/volunteer/medical.jpg");
+  background: url("../img/SERVICETYPE/volunteer/medical.jpg");
   background-position: center;
   background-size: cover;
 }
 
 .btnVolunteerOtherService {
-  background: url("img/SERVICETYPE/volunteer/another.jpg");
+  background: url("../img/SERVICETYPE/volunteer/another.jpg");
   background-position: center;
   background-size: cover;
 }

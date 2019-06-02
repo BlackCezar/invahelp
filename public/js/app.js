@@ -102,7 +102,7 @@ function scrollToThirdScreen() {
 
 function theOrderIsSentForExecutionAnimation(btn) {
   btn.preventDefault();
-  console.log(btn.target.dataset.screentohide);
+  // console.log(btn.target.dataset.screentohide);
   switch (btn.target.dataset.screentohide) {
     case 'taxi':
       taxi.style.top = '100%';
@@ -142,7 +142,7 @@ function theOrderIsSentForExecutionAnimation(btn) {
 }
 
 function switchScreen(btn) {
-  console.log(btn.target.dataset.destination);
+  // console.log(btn.target.dataset.destination);
   switch (btn.target.dataset.destination) {
     case 'from main to taxi':
       main.style.left = '100%';
