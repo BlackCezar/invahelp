@@ -18,16 +18,16 @@
     <form id="registrationForm">
       <i id="registrationBack" class="fas fa-arrow-circle-down"></i>
       <div id="helloText">Регистрация</div>
-      <select>
-        <option value="Пользователь">Пользователь</option>
-        <option value="Волонтер">Волонтер</option>
-        <option value="Водитель">Водитель</option>
+      <select required>
+        <option value="0">Человек с ОВЗ</option>
+        <option value="1">Волонтер</option>
+        <option value="2">Водитель</option>
       </select>
-      <input type="text" name="FIO" id="FIO" placeholder="ФИО" autocomplete="off">
-      <input type=" tel" placeholder="Телефон">
-      <input type="email" placeholder="Электронная почта">
-      <input type="password" placeholder="Пароль">
-      <input type="password" placeholder="Повторите пароль">
+      <input required type="text" name="FIO" id="FIO" placeholder="ФИО" autocomplete="off">
+      <input required type="tel" placeholder="Телефон">
+      <input required type="email" placeholder="Электронная почта">
+      <input required type="password" placeholder="Пароль">
+      <input required type="password" placeholder="Повторите пароль">
       <input type="file">
 
       <a id="alreadyHaveAnAccountLink">Уже есть аккаунт?</a>
@@ -225,5 +225,6 @@
 </body>
 
 <script src="js/app.js"></script>
+<script src="js/registration.js"></script>
 
 </html>

@@ -8,8 +8,6 @@ const registrationScreen = document.querySelector('#registrationScreen');
 const alreadyHaveAnAccountLink = document.querySelector('#alreadyHaveAnAccountLink');
 const loginBack = document.querySelector('#loginBack');
 const registrationBack = document.querySelector('#registrationBack');
-const FIO = document.querySelector('#FIO');
-const regBtn = document.querySelector('#regBtn');
 const btnTaxiServices = document.querySelector('.btnTaxiServices');
 const btnTaxiOrderBack = document.querySelector('.btnTaxiOrderBack');
 const btnVolunteerServices = document.querySelector('.btnVolunteerServices');
@@ -37,19 +35,6 @@ const btnMedicalAidOrder = document.querySelector('.btnMedicalAidOrder');
 const btnDeliveryOrder = document.querySelector('.btnDeliveryOrder');
 const btnTaxiOrder = document.querySelector('.btnTaxiOrder');
 
-
-function splitFIO(string) {
-  const splittedString = string.split(' ');
-
-  const result = {
-    surname: splittedString[0],
-    firstName: splittedString[1],
-    lastName: splittedString[2],
-  };
-
-  return result;
-}
-
 function showLoginScreen() {
   html.style.overflow = 'hidden';
   body.style.overflow = 'hidden';
@@ -71,11 +56,6 @@ function showRegistrationScreen() {
   body.style.overflow = 'hidden';
   registrationScreen.style.top = '0';
   registrationScreen.style.visibility = 'visible';
-
-  regBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    console.log(splitFIO(FIO.value));
-  });
 }
 
 function backFromRegistrationScreen() {
@@ -94,7 +74,6 @@ function alreadyHaveAnAccount() {
 }
 
 function scrollToThirdScreen() {
-  // document.querySelector('.thirdScreen').scrollIntoView({behavior: 'smooth'};
   document.querySelector('.thirdScreen').scrollIntoView({
     behavior: 'smooth',
   });
