@@ -43,23 +43,9 @@ router.get('/users/logout', async (req, res) => {
 });
 
 router.post('/users/reg', async (req, res) => {
-  if (req.body && !req.session.auth) {
-    let SQL = 'INSERT INTO';
-    switch (req.body.type) {
-      case '0':
-        SQL += '`clients`';
-        break;
-      case '1':
-        SQL += '`volunteers`';
-        break;
-      case '2':
-        SQL += '`drivers`';
-        break;
-      default:
-        break;
-    }
-    const password = passHash(req.body.password);
-    SQL += `(\`id\`, \`firstName\`, \`lastName\`, \`surname\`, \`tel\`, \`email\`, \`regTime\`, \`lastEnterTime\`, \`status\`, \`password_hash\`) VALUES (NULL, '${req.body.firstName}', '${req.body.lastName}', '${req.body.surname}', '${req.body.tel}', '${req.body.email}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, '${password}')`;
+  if (req.body) {
+  const password = passHash(req.body.password);
+  const SQL = `INSERT INTO \`users\` (\`id\`,\`role\`,\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`email\`,\`home adress\`,\`password hash\`,\`confirmation status\`,\`registration time\`,\`last enter time\`,\`disability group\`,\`restriction type\`) VALUES (NULL, '${req.body.role}','${req.body.firstname}','${req.body.lastname}','${req.body.surname}','${req.body.phone}','${req.body.email}',NULL,'${password}',FALSE,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,NULL)')`;
     try {
       const resp = await query(SQL);
       if (resp) {
@@ -83,20 +69,7 @@ router.post('/users/reg', async (req, res) => {
 router.post('/users/login', async (req, res) => {
   if (req.body) {
     let SQL = '';
-    switch (req.body.type) {
-      case 0:
-        SQL += '`clients`';
-        break;
-      case 1:
-        SQL += '`volunteers`';
-        break;
-      case 2:
-        SQL += '`drivers`';
-        break;
-      default:
-        break;
-    }
-    const users = await query(`SELECT * FROM ${SQL}`);
+    const users = await query(`SELECT * FROM \`clients\` WHERE \`type\` = '${req.body.type}'`);
     let finded = false;
 
     users.forEach((user) => {
