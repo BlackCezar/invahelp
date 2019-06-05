@@ -43,17 +43,9 @@ router.get('/users/logout', async (req, res) => {
 });
 
 router.post('/users/reg', async (req, res) => {
-  if (req.body && !req.session.auth) {
-    let SQL = 'INSERT INTO';
-    switch (req.body.type) {
-      case '0': SQL += '`clients`'; break;
-      case '1': SQL += '`volunteers`'; break;
-      case '2': SQL += '`drivers`'; break;
-      default:
-        break;
-    }
-    let password = passHash(req.body.password);
-    SQL += `(\`id\`, \`firstName\`, \`lastName\`, \`surname\`, \`tel\`, \`email\`, \`regTime\`, \`lastEnterTime\`, \`status\`, \`password_hash\`) VALUES (NULL, '${req.body.firstName}', '${req.body.lastName}', '${req.body.surname}', '${req.body.tel}', '${req.body.email}', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, '${password}')`;
+  if (req.body) {
+  const password = passHash(req.body.password);
+  const SQL = `INSERT INTO \`users\` (\`id\`,\`role\`,\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`email\`,\`home adress\`,\`password hash\`,\`confirmation status\`,\`registration time\`,\`last enter time\`,\`disability group\`,\`restriction type\`) VALUES (NULL, '${req.body.role}','${req.body.firstname}','${req.body.lastname}','${req.body.surname}','${req.body.phone}','${req.body.email}',NULL,'${password}',FALSE,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,NULL)')`;
     try {
       const resp = await query(SQL);
       if (resp) {
@@ -77,14 +69,7 @@ router.post('/users/reg', async (req, res) => {
 router.post('/users/login', async (req, res) => {
   if (req.body) {
     let SQL = '';
-    switch (req.body.type) {
-      case 0: SQL += '`clients`'; break;
-      case 1: SQL += '`volunteers`'; break;
-      case 2: SQL += '`drivers`'; break;
-      default:
-        break;
-    }
-    const users = await query(`SELECT * FROM ${SQL}`);
+    const users = await query(`SELECT * FROM \`clients\` WHERE \`type\` = '${req.body.type}'`);
     let finded = false;
 
     users.forEach((user) => {
@@ -104,197 +89,204 @@ router.post('/users/login', async (req, res) => {
       }
     });
 
-    // for (const user of users) {
-    //   if (user.email === req.body.email) {
-    //     finded = true;
-    //     if (passwordHash.verify(req.body.password, user.password_hash)) {
-    //       startSession(req, user);
-    //       res.json({
-    //         status: 200,
-    //       });
-    //     } else {
-    //       res.json({
-    //         status: 401,
-    //         reason: 'Неправильный пароль',
-    //       });
-    //     }
-    //     break;
-    //   }
-    // }
-
     if (!finded) {
       res.json({
         status: 401,
         reason: 'Неправильный email',
       });
     }
-    // let hashedPassword = passwordHash.generate(req.body.password);
   }
 });
-
-// router.get('/orders/getMyOrders', async (req, res, next) => {
-//   const response = await query('');
-// });
 
 router.get('/users/:id', async (req, res) => {
   if (req.body) {
     let table = '';
     switch (req.body.type) {
-      case '0': table = '`clients`'; break;
-      case '1': table = '`volunteers`'; break;
-      case '2': table = '`drivers`'; break;
+      case '0':
+        table = '`clients`';
+        break;
+      case '1':
+        table = '`volunteers`';
+        break;
+      case '2':
+        table = '`drivers`';
+        break;
       default:
-      break;
+        break;
     }
     try {
       const users = await query(`SELECT * FROM ${table} WHERE \`id\` = '${req.params.id}'`);
-      if (users.length == 0) throw new Error('Нет такого пользователя');  
+      if (users.length === 0) throw new Error('Нет такого пользователя');
       res.json(users);
     } catch (err) {
       res.json({
         status: 401,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } res.json({
+  }
+  res.json({
     status: 401,
-    reason: 'Не указан тип пользователя'
-  })
-})
+    reason: 'Не указан тип пользователя',
+  });
+});
 
 router.get('/users/me', async (req, res) => {
   if (req.session.auth) {
     const user = await query(`SELECT * FROM ${req.session.userType} WHERE \`id\` = '${req.session.id}'`);
-    res.json(user)
-  } else res.json({
-    status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+    res.json(user);
+  } else {
+    res.json({
+      status: 401,
+      reason: 'Вы не авторизованы',
+    });
+  }
+});
 
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      const orders = await query(`SELECT * FROM \`orders\` WHERE \`${req.session.userType.slice(0,-1)}Id\` = '${req.session.id}'`);
-      if (orders.length == 0) throw new Error('У вас нет заказов');  
-      res.json(orders)
+      const orders = await query(`SELECT * FROM \`orders\` WHERE \`${req.session.userType.slice(0, -1)}Id\` = '${req.session.id}'`);
+      if (orders.length === 0) throw new Error('У вас нет заказов');
+      res.json(orders);
     } catch (err) {
       res.json({
         status: 404,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } else res.json({
-    status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+  } else {
+    res.json({
+      status: 401,
+      reason: 'Вы не авторизованы',
+    });
+  }
+});
 
 router.get('/orders/:id', async (req, res) => {
   if (req.session.auth) {
     try {
       const orders = await query(`SELECT * FROM \`orders\` WHERE \`id\` = '${req.params.id}'`);
-      if (orders.length == 0) throw new Error('Нет такого заказа');
+      if (orders.length === 0) throw new Error('Нет такого заказа');
       res.json(orders);
     } catch (err) {
       res.json({
         status: 401,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } res.json({
+  }
+  res.json({
     status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+    reason: 'Вы не авторизованы',
+  });
+});
 
 router.post('/orders/:id', async (req, res) => {
   if (req.session.auth) {
     try {
       const orders = await query(`UPDATE \`orders\` SET services='${req.body.services}', status='${req.body.status}', clientId='${req.body.clientId}', driverId='${req.body.clientId}', volunteerId='${req.body.volunteerId}', payload='${req.body.payload}' WHERE \`id\` = '${req.params.id}'`);
       console.log(orders);
-      if (orders.changedRows == 0) throw new Error('Нет такого заказа');
-      res.json({status:200});
-    }catch (err) {
+      if (orders.changedRows === 0) throw new Error('Нет такого заказа');
+      res.json({
+        status: 200,
+      });
+    } catch (err) {
       res.json({
         status: 401,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } res.json({
+  }
+  res.json({
     status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+    reason: 'Вы не авторизованы',
+  });
+});
 
 router.post('/orders/add', async (req, res) => {
   if (req.session.auth) {
     try {
       const order = await query(`INSERT INTO \`orders\` services='${req.body.services}', status='${req.body.status}', clientId='${req.body.clientId}', driverId='${req.body.clientId}', volunteerId='${req.body.volunteerId}', payload='${req.body.payload}' WHERE \`id\` = '${req.params.id}'`);
-      if (order.insertId == 0) throw new Error('Что-то не так, повторите еще раз');
-      res.json({ status: 200 });
+      if (order.insertId === 0) throw new Error('Что-то не так, повторите еще раз');
+      res.json({
+        status: 200,
+      });
     } catch (err) {
       res.json({
         status: 401,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } res.json({
+  }
+  res.json({
     status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+    reason: 'Вы не авторизованы',
+  });
+});
 
 router.get('/orders/my', async (req, res) => {
   if (req.session.auth) {
     try {
       const orders = await query(`SELECT * FROM \`orders\` WHERE ${req.session.userType}Id = '${req.session.id}'`);
-      if (orders.length == 0) throw new Error('У вас еще нет заказов');
-      res.json({ status: 200, orders: orders});
+      if (orders.length === 0) throw new Error('У вас еще нет заказов');
+      res.json({
+        status: 200,
+        orders,
+      });
     } catch (err) {
       res.json({
         status: 401,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } res.json({
+  }
+  res.json({
     status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+    reason: 'Вы не авторизованы',
+  });
+});
 
 router.delete('/orders/:id', async (req, res) => {
   if (req.session.auth) {
     try {
       const orders = await query(`SELECT * FROM \`orders\` WHERE ${req.session.userType}Id = '${req.session.id}'`);
-      res.json({ status: 200, orders: orders });
+      res.json({
+        status: 200,
+        orders,
+      });
     } catch (err) {
       res.json({
         status: 401,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } res.json({
+  }
+  res.json({
     status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+    reason: 'Вы не авторизованы',
+  });
+});
 
 router.get('/orders/checkStatus/:id', async (req, res) => {
   if (req.session.auth) {
     try {
       const order = await query(`SELECT * FROM \`orders\` WHERE id = '${req.params.id}'`);
-      res.json({ status: 200, status: order.status });
+      res.json({
+        status: 200,
+        status: order.status,
+      });
     } catch (err) {
       res.json({
         status: 401,
-        reason: err || 'Возникла непредвиденная ошибка'
-      })
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
     }
-  } res.json({
+  }
+  res.json({
     status: 401,
-    reason: 'Вы не авторизованы'
-  })
-})
+    reason: 'Вы не авторизованы',
+  });
+});
 
 module.exports = router;

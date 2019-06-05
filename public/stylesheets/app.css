@@ -1,111 +1,18 @@
-*{ margin: 0; padding: 0;}
+* {
+  margin: 0;
+  padding: 0;
+}
 
-body{
+body {
   background: linear-gradient(45deg, #1f0427, #0c0b2f);
   color: #fff;
-  padding: 4%;
+  overflow-x: hidden;
 }
 
-#imgTaxi{
-  float: right;
-  margin-right: -3.4em;
-  width: 60%;
-  height: 60%;
-}
+/* #region LOGIN */
 
-header{
-  display: flex;
-  align-items: center;
-}
-
-#logo-text{
-  font-family: "Exo 2.0 Light";
-  margin-left: 4%;
-}
-
-#phone{
-  font-family: 'Exo 2.0 Black';
-  font-size: 1.3em;
-  margin-left:5%;
-  color: #fff;
-}
-
-#btn-registration, #btn-login{
-  background: none;
-  border: 1.5px solid #F5A130;
-  color: #F5A130;
-  border-radius: 40px;
-  width: 140px;
-  height: 45px;
-  font-weight: bold;
-  padding: 0.5em 1em;
-  margin-left: 15px;
-  outline: none;
-  transition: 0.5s;
-
-}
-
-#btn-registration:hover, #btn-login:hover, #btn-registration:focus, #btn-login:focus{
-  transition: 0.5s;
-  background-color: #F5A130;
-  color: #fff;
-}
-
-#text1{
-  font-family: "Exo 2.0 Black";
-  font-size: 4em;
-}
-
-#text2{
-  margin-top: 1%;
-  font-family: "Exo 2.0 Medium";
-  font-size: 2.8em;
-}
-
-#textBlock{
-  margin: 8% 1% 0 0;
-}
-
-#btn-selectService{
-  border: none;
-  background: linear-gradient(280deg,#f48830,#f5b730);
-  color: #fff;
-  border-radius: 40px;
-  padding: 1em 1.5em;
-  margin-top: 2.5%;
-  outline: none;
-  font-family: "Exo 2.0 Black";
-  font-size: 1.5em;
-  text-shadow:0px 2px 10px rgba(0, 0, 0, 0.8);
-  box-shadow: 0 0 15px #f5a630;
-  transition: 0.5s;
-}
-
-#btn-selectService:hover, #btn-selectService:focus{
-  transition: 0.5s;
-  box-shadow: 0 0 30px #f5a630
-}
-#btn-selectService:active{
-  /* transition: 10s; */
-  box-shadow: 0 0 15px #f5a630;
-  background: linear-gradient(280deg,#f5b730,#f48830);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#loginScreen{
+#loginScreen {
+  visibility: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,24 +25,24 @@ header{
   transition: 1.5s;
 }
 
-#loginForm *{
+#loginForm * {
   outline: none;
   margin-top: 15px;
 }
 
-#loginForm #loginBack{
+#loginForm #loginBack {
   position: relative;
   display: flex;
   justify-content: center;
-margin-bottom: 50%;
+  margin-bottom: 50%;
 }
 
-#loginForm #helloText{
+#loginForm #helloText {
   text-align: center;
   margin-bottom: 15px;
 }
 
-#loginForm{
+#loginForm {
   font-family: "Exo 2.0 Regular";
   font-size: 1.5em;
   display: flex;
@@ -145,23 +52,24 @@ margin-bottom: 50%;
   height: 100%;
 }
 
-#loginForm input{
+#loginForm input {
   outline: none;
   border-radius: 4px;
   color: #fafafa;
   background: rgba(63, 63, 63, 0.6);
-  border: 2px solid transparent;  
+  border: 2px solid transparent;
   font-size: 0.8em;
   padding: 0.5em;
   transition: 0.5s;
 }
 
-#loginForm input:hover, #loginForm input:focus{
+#loginForm input:hover,
+#loginForm input:focus {
   border: 2px solid #f48830;
 }
 
 
-#loginForm a{
+#loginForm a {
   font-size: .8em;
   text-align: center;
   color: #F5A130;
@@ -169,15 +77,16 @@ margin-bottom: 50%;
   transition: 0.5s;
   width: fit-content;
   margin: 15px auto 0 auto;
-  border-bottom: 1px solid transparent; 
+  border-bottom: 1px solid transparent;
 }
 
-#loginForm a:hover, #loginForm a:focus{
-  border-bottom: 1px solid #f48830; 
+#loginForm a:hover,
+#loginForm a:focus {
+  border-bottom: 1px solid #f48830;
 }
 
 
-#loginForm button{
+#loginForm button {
   font-family: "Exo 2.0 Regular";
   font-size: 1em;
   background: rgba(63, 63, 63, 0.6);
@@ -190,25 +99,23 @@ margin-bottom: 50%;
   border: 2px solid transparent;
 }
 
-#loginForm button:focus,#loginForm button:hover{
+#loginForm button:focus,
+#loginForm button:hover {
   color: #f48830;
   border: 2px solid #f48830
 }
 
-  #loginForm button:active{
+#loginForm button:active {
   color: #fafafa;
   background: #f48830;
 }
 
+/* #endregion LOGIN */
 
+/* #region REGISTRATION */
 
-
-
-
-
-
-
-#registrationScreen{
+#registrationScreen {
+  visibility: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,26 +128,26 @@ margin-bottom: 50%;
   transition: 1.5s;
 }
 
-#registrationForm *{
+#registrationForm * {
   outline: none;
   margin-top: 15px;
 }
 
-#registrationForm #registrationBack{
+#registrationForm #registrationBack {
   position: relative;
   display: flex;
   justify-content: center;
   margin-bottom: 15px;
 }
 
-#registrationForm #helloText{
+#registrationForm #helloText {
   text-align: center;
   margin-bottom: 15px;
 }
 
-#registrationForm{
+#registrationForm {
   font-family: "Exo 2.0 Regular";
-  font-size: 1.3em;
+  font-size: 1.1em;
   display: flex;
   flex-direction: column;
   width: 30%;
@@ -249,25 +156,37 @@ margin-bottom: 50%;
   border-radius: 40px;
 }
 
-#registrationForm input{
+#registrationForm select {
   font-family: "Exo 2.0 Light";
   outline: none;
   border-radius: 4px;
   color: #fafafa;
   background: rgba(63, 63, 63, 0.6);
-  border: 2px solid transparent;  
-  /* width: 100%; */
+  border: 2px solid transparent;
   font-size: 1em;
   padding: 0.5em;
   transition: 0.5s;
 }
 
-#registrationForm input:hover, #registrationForm input:focus{
+#registrationForm input {
+  font-family: "Exo 2.0 Light";
+  outline: none;
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+#registrationForm input:hover,
+#registrationForm input:focus {
   border: 2px solid #f48830;
 }
 
 
-#registrationForm a{
+#registrationForm a {
   font-size: .8em;
   text-align: center;
   color: #F5A130;
@@ -275,15 +194,17 @@ margin-bottom: 50%;
   transition: 0.5s;
   width: fit-content;
   margin: 15px auto 0 auto;
-  border-bottom: 1px solid transparent; 
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
 }
 
-#registrationForm a:hover, #registrationForm a:focus{
-  border-bottom: 1px solid #f48830; 
+#registrationForm a:hover,
+#registrationForm a:focus {
+  border-bottom: 1px solid #f48830;
 }
 
 
-#registrationForm button{
+#registrationForm button {
   font-family: "Exo 2.0 Regular";
   font-size: 1em;
   background: rgba(63, 63, 63, 0.6);
@@ -296,41 +217,972 @@ margin-bottom: 50%;
   border: 2px solid transparent;
 }
 
-#registrationForm button:focus,#registrationForm button:hover{
+#registrationForm button:focus,
+#registrationForm button:hover {
   color: #f48830;
   border: 2px solid #f48830;
 }
 
-#registrationForm button:active{
+#registrationForm button:active {
   color: #fafafa;
   background: #f48830;
 }
 
-#registrationForm ::-webkit-file-upload-button{
+#registrationForm ::-webkit-file-upload-button {
   background: rgba(63, 63, 63, 0.6);
   border: 2px solid #f48830;
   border-radius: 4px;
   color: #fafafa;
-  /* font-size: 1em; */
 }
 
+/* #endregion REGISTRATION */
 
+/* #region FIRSTSCREEN*/
 
+.firstScreen {
+  height: 100vh;
+}
 
+/* #region HEADER */
 
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 3vw 3vw 0 3vw;
+}
 
+#logoImg {
+  width: 20vw;
+}
 
+#logo-text {
+  font-family: "Exo 2.0 Light";
+  font-size: 1vw;
+}
 
+#phone {
+  font-family: 'Exo 2.0 Black';
+  font-size: 1.3vw;
+  color: #fff;
+}
 
+#btn-registration,
+#btn-login {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-family: "Exo 2.0 Medium";
+  background: none;
+  border: 2px solid #F5A130;
+  color: #F5A130;
+  border-radius: 2vw;
+  font-size: 1vw;
+  width: 12vw;
+  padding: 1vw;
+  outline: none;
+  transition: 0.5s;
+}
 
+#btn-registration:hover,
+#btn-login:hover,
+#btn-registration:focus,
+#btn-login:focus {
+  cursor: pointer;
+  background-color: #F5A130;
+  color: #fff;
+}
 
+.firstContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.imgTaxi {
+  background: url("../img/FIRSTSCREEN/Taxi.png");
+  background-position: center;
+  background-size: cover;
+  width: 54vw;
+  height: 100vh;
+}
 
+.textBlock {
+  margin-left: 6vw;
+  height: fit-content;
+}
 
+.firstText {
+  font-family: "Exo 2.0 Black";
+  font-size: 4em;
+  width: fit-content;
+}
 
+.textBlock .secondText {
+  margin-top: 1%;
+  font-family: "Exo 2.0 Medium";
+  color: #fafafa;
+  font-size: 2.8em;
+}
 
+#btn-selectService {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-family: "Exo 2.0 Black";
+  border: none;
+  background: linear-gradient(280deg, #f48830, #f5b730);
+  color: #fff;
+  border-radius: 40px;
+  padding: 1em 1.5em;
+  margin-top: 2.5%;
+  outline: none;
+  font-size: 1.5em;
+  text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 15px #f5a630;
+  transition: 0.5s;
+}
 
-@media (min-width: 576px) {
+#btn-selectService:hover,
+#btn-selectService:focus {
+  cursor: pointer;
+  box-shadow: 0 0 30px #f5a630
+}
+
+#btn-selectService:active {
+  box-shadow: 0 0 15px #f5a630;
+  background: linear-gradient(280deg, #f5b730, #f48830);
+}
+
+/* #endregion HEADER */
+
+/* #endregion FIRSTSCREEN */
+
+/* #region SECONDSCREEN */
+
+/* #region ABOUT */
+
+.about {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  background: #fafafa;
+  width: 100%;
+  height: 100vh;
+  padding: 2vw;
+}
+
+.mainText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Exo 2.0 Black';
+  font-size: 2vw;
+  color: #1e1e1e;
+  margin-bottom: 1vw;
+}
+
+.secondText {
+  display: flex;
+  flex-direction: row;
+  font-family: 'Exo 2.0 Medium';
+  color: #1e1e1e;
+  font-size: 1.5vw;
+}
+
+/* #endregion ABOUT */
+
+/* #region FEATURES */
+
+.features {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  background: #fafafa;
+  width: 100%;
+  padding: 2vw;
+}
+
+.items {
+  display: flex;
+  align-content: center;
+  justify-content: space-evenly;
+  font-family: 'Exo 2.0 Medium';
+  font-size: 2em;
+  color: #1e1e1e;
+  width: 100%;
+}
+
+.item {
+  width: 30%;
+  padding: 0.5em;
+}
+
+.item span {
+  font-family: "Exo 2.0 Medium";
+  color: #f48830;
+}
+
+.itemTitle {
+  width: fit-content;
+  font-family: "Exo 2.0 Medium";
+  margin: 0 auto;
+}
+
+.itemText {
+  font-family: "Exo 2.0 Light";
+  font-size: 0.8em;
+  margin-top: 1em;
+}
+
+/* #endregion FEATURES */
+
+/* #endregion SECONDSCREEN */
+
+/* #region THIRDSCREEN */
+
+.thirdScreen {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* #region SERVICES */
+
+/* #region MAIN */
+
+.main {
+  position: relative;
+  top: 0;
+  left: 0;
+  transition: 1s;
+}
+
+.services {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-family: "Exo 2.0 Medium";
+  font-size: 3vw;
+  width: 100%;
+  padding-top: 2vw;
+}
+
+.btnTaxiServices,
+.btnVolunteerServices {
+  outline: none;
+  border: none;
+  border-radius: 2vw;
+  margin: 2vw 1vw;
+  width: 45vw;
+  height: 37vw;
+}
+
+.btnTaxiServices {
+  background: url("../img/SERVICETYPE/Taxi/driver.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.btnVolunteerServices {
+  background: url("../img/SERVICETYPE/volunteer/volunteer.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Exo 2.0 Medium";
+  font-size: 3vw;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 2vw;
+  color: #fafafa;
+  transition: 0.5s;
+}
+
+.btnTaxiServices:hover .text,
+.btnTaxiServices:focus .text,
+.btnVolunteerServices:hover .text,
+.btnVolunteerServices:focus .text {
+  border: 2px solid #f48830;
+  font-size: 4vw;
+  color: #f48830;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.btnTaxiServices:active .text,
+.btnVolunteerServices:active .text {
+  transition: 0.1s;
+  font-size: 2vw;
+}
+
+.btnSelectServiceBack {
+  font-family: "Exo 2.0 Regular";
+  font-size: 0.5em;
+  background: rgba(63, 63, 63, 0.6);
+  border: none;
+  padding: 0.5em 2em;
+  outline: none;
+  color: darkgrey;
+  border-radius: 40px;
+  transition: 0.5s;
+  border: 2px solid transparent;
+  margin-right: 2em;
+}
+
+.btnTaxiOrder:focus,
+.btnTaxiOrder:hover,
+.btnSelectServiceBack:focus,
+.btnSelectServiceBack:hover {
+  color: #f48830;
+  border: 2px solid #f48830;
+}
+
+.btnTaxiOrder:active,
+.btnSelectServiceBack:active {
+  color: #fafafa;
+  background: #f48830;
+}
+
+/* #endregion MAIN */
+
+/* #region TAXISERVICES */
+
+.taxiServices {
+  position: absolute;
+  width: 100%;
+  top: 0;
+}
+
+.serviceType {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.serviceType button {
+  outline: none;
+  border: none;
+  border-radius: 2vw;
+  margin: 2vw 1vw;
+  width: 45vw;
+  height: 37vw;
+}
+
+.btnTaxi {
+  background: url("../img/SERVICETYPE/Taxi/taxi.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.btnDelivery {
+  background: url("../img/SERVICETYPE/delivery.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.btnTaxi:hover .text,
+.btnTaxi:focus .text,
+.btnDelivery:hover .text,
+.btnDelivery:focus .text {
+  border: 2px solid #f48830;
+  font-size: 4vw;
+  color: #f48830;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.btnTaxi:active .text,
+.btnDelivery:active .text {
+  transition: 0.1s;
+  font-size: 2vw;
+}
+
+/* #endregion TAXISERVICES */
+
+/* #region TAXI */
+
+.taxi {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  transition: 1s;
+}
+
+.taxiOrderForm * {
+  outline: none;
+}
+
+.taxiOrderForm {
+  position: absolute;
+  font-size: 1.3em;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  width: 30%;
+  height: 100%;
+  top: 0;
+  justify-content: space-evenly;
+  /* align-content: space-around; */
+}
+
+.taxiOrderForm input {
+  font-family: "Exo 2.0 Light";
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+.taxiOrderForm div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.taxiOrderForm input:hover,
+.taxiOrderForm input:focus {
+  border: 2px solid #f48830;
+}
+
+.btnTaxiOrder,
+.btnTaxiOrderBack {
+  font-family: "Exo 2.0 Regular";
+  font-size: 1em;
+  background: rgba(63, 63, 63, 0.6);
+  border: none;
+  padding: 0.5em;
+  outline: none;
+  color: darkgrey;
+  border-radius: 40px;
+  transition: 0.5s;
+  border: 2px solid transparent;
+}
+
+.btnTaxiOrder:focus,
+.btnTaxiOrder:hover,
+.btnTaxiOrderBack:focus,
+.btnTaxiOrderBack:hover {
+  color: #f48830;
+  border: 2px solid #f48830;
+}
+
+.btnTaxiOrder:active,
+.btnTaxiOrderBack:active {
+  color: #fafafa;
+  background: #f48830;
+}
+
+/* #endregion TAXI */
+
+/* #region DELIVERY */
+
+.delivery {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  transition: 1s;
+}
+
+.deliveryOrderForm * {
+  outline: none;
+}
+
+.deliveryOrderForm {
+  position: absolute;
+  font-size: 1.3em;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  width: 30%;
+  height: 100%;
+  top: 0;
+  justify-content: space-evenly;
+}
+
+.deliveryOrderForm input {
+  font-family: "Exo 2.0 Light";
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+.deliveryOrderForm div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.deliveryOrderForm input:hover,
+.deliveryOrderForm input:focus {
+  border: 2px solid #f48830;
+}
+
+.btnDeliveryOrder,
+.btnDeliveryOrderBack {
+  font-family: "Exo 2.0 Regular";
+  font-size: 1em;
+  background: rgba(63, 63, 63, 0.6);
+  border: none;
+  padding: 0.5em;
+  outline: none;
+  color: darkgrey;
+  border-radius: 40px;
+  transition: 0.5s;
+  border: 2px solid transparent;
+}
+
+.btnDeliveryOrder:focus,
+.btnDeliveryOrder:hover,
+.btnDeliveryOrderBack:focus,
+.btnDeliveryOrderBack:hover {
+  color: #f48830;
+  border: 2px solid #f48830;
+}
+
+.btnDeliveryOrder:active,
+.btnDeliveryOrderBack:active {
+  color: #fafafa;
+  background: #f48830;
+}
+
+.deliveryOrderForm select {
+  font-family: "Exo 2.0 Light";
+  outline: none;
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+/* #endregion DELIVERY */
+
+/* #region VOLUNTEERSERVICES */
+
+.volunteerServices {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 100%;
+  transition: 1s;
+}
+
+.volunteerServices .container {
+  display: flex;
+  align-items: center;
+}
+
+.btnVolunteerDeliveryService,
+.btnVolunteerOtherServices {
+  outline: none;
+  border: none;
+  border-radius: 2vw;
+  margin: 2vw 1vw;
+  width: 45vw;
+  height: 37vw;
+}
+
+.btnVolunteerOtherServices {
+  background: url("../img/SERVICETYPE/volunteer/another_help.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.btnVolunteerDeliveryService {
+  background: url("../img/SERVICETYPE/volunteer/delivery.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.btnVolunteerDeliveryService:hover .text,
+.btnVolunteerDeliveryService:focus .text,
+.btnVolunteerOtherServices:hover .text,
+.btnVolunteerOtherServices:focus .text {
+  border: 2px solid #f48830;
+  font-size: 4vw;
+  color: #f48830;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.btnVolunteerDeliveryService:active .text,
+.btnVolunteerOtherServices:active .text {
+  transition: 0.1s;
+  font-size: 2vw;
+}
+
+/* #endregion VOLUNTEERSERVICES */
+
+/* #region OTHERSERVICES */
+
+.otherServices {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 100%;
+  transition: 1s;
+}
+
+.btnVolunteerMedicalAidService,
+.btnVolunteerOtherService {
+  outline: none;
+  border: none;
+  border-radius: 2vw;
+  margin: 2vw 1vw;
+  width: 45vw;
+  height: 37vw;
+}
+
+.btnVolunteerMedicalAidService {
+  background: url("../img/SERVICETYPE/volunteer/medical.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.btnVolunteerOtherService {
+  background: url("../img/SERVICETYPE/volunteer/another.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.btnVolunteerMedicalAidService:hover .text,
+.btnVolunteerMedicalAidService:focus .text,
+.btnVolunteerOtherService:hover .text,
+.btnVolunteerOtherService:focus .text {
+  border: 2px solid #f48830;
+  font-size: 4vw;
+  color: #f48830;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.btnVolunteerMedicalAidService:active .text,
+.btnVolunteerOtherService:active .text {
+  transition: 0.1s;
+  font-size: 2vw;
+}
+
+.btnOtherServiceBack {
+  font-family: "Exo 2.0 Regular";
+  font-size: 0.5em;
+  background: rgba(63, 63, 63, 0.6);
+  border: none;
+  padding: 0.5em 2em;
+  outline: none;
+  color: darkgrey;
+  border-radius: 40px;
+  transition: 0.5s;
+  border: 2px solid transparent;
+  margin-right: 2em;
+}
+
+.btnOtherServiceBack:focus,
+.btnOtherServiceBack:hover {
+  color: #f48830;
+  border: 2px solid #f48830;
+}
+
+.btnOtherServiceBack:active {
+  color: #fafafa;
+  background: #f48830;
+}
+
+/* #endregion OTHERSERVICES */
+
+/* #region VOLUNTEERMEDICALSERVICE */
+
+.volunteerMedicalAidService {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  transition: 1s;
+}
+
+.medicalAidOrderForm .title {
+  text-align: center;
+}
+
+.medicalAidOrderForm * {
+  outline: none;
+}
+
+.medicalAidOrderForm {
+  position: absolute;
+  font-size: 1.3em;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  width: 30%;
+  height: 100%;
+  top: 0;
+  justify-content: space-evenly;
+  /* align-content: space-around; */
+}
+
+.medicalAidOrderForm input {
+  font-family: "Exo 2.0 Light";
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+.medicalAidOrderForm div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.medicalAidOrderForm input:hover,
+.medicalAidOrderForm input:focus {
+  border: 2px solid #f48830;
+}
+
+.btnMedicalAidOrder,
+.btnMedicalAidOrderBack {
+  font-family: "Exo 2.0 Regular";
+  font-size: 1em;
+  background: rgba(63, 63, 63, 0.6);
+  border: none;
+  padding: 0.5em;
+  outline: none;
+  color: darkgrey;
+  border-radius: 40px;
+  transition: 0.5s;
+  border: 2px solid transparent;
+}
+
+.btnMedicalAidOrder:focus,
+.btnMedicalAidOrder:hover,
+.btnMedicalAidOrderBack:focus,
+.btnMedicalAidOrderBack:hover {
+  color: #f48830;
+  border: 2px solid #f48830;
+}
+
+.btnMedicalAidOrder:active,
+.btnMedicalAidOrderBack:active {
+  color: #fafafa;
+  background: #f48830;
+}
+
+.medicalAidOrderForm select {
+  font-family: "Exo 2.0 Light";
+  outline: none;
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+/* #endregion MEDICALAIDSERVICE */
+
+/* #region VOLUNTEEROTHERSERVICE */
+
+.volunteerOtherService {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 100%;
+  transition: 1s;
+}
+
+.otherServiceOrderForm .title {
+  text-align: center;
+}
+
+.otherServiceOrderForm * {
+  outline: none;
+}
+
+.otherServiceOrderForm {
+  position: absolute;
+  font-size: 1.3em;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  width: 30%;
+  height: 100%;
+  top: 0;
+  justify-content: space-evenly;
+  /* align-content: space-around; */
+}
+
+.otherServiceOrderForm input {
+  font-family: "Exo 2.0 Light";
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+.otherServiceOrderForm div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.otherServiceOrderForm input:hover,
+.otherServiceOrderForm input:focus {
+  border: 2px solid #f48830;
+}
+
+.btnOtherServiceOrder,
+.btnOtherServiceOrderBack {
+  font-family: "Exo 2.0 Regular";
+  font-size: 1em;
+  background: rgba(63, 63, 63, 0.6);
+  border: none;
+  padding: 0.5em;
+  outline: none;
+  color: darkgrey;
+  border-radius: 40px;
+  transition: 0.5s;
+  border: 2px solid transparent;
+}
+
+.btnOtherServiceOrder:focus,
+.btnOtherServiceOrder:hover,
+.btnOtherServiceOrderBack:focus,
+.btnOtherServiceOrderBack:hover {
+  color: #f48830;
+  border: 2px solid #f48830;
+}
+
+.btnOtherServiceOrder:active,
+.btnOtherServiceOrderBack:active {
+  color: #fafafa;
+  background: #f48830;
+}
+
+.otherServiceOrderForm select {
+  font-family: "Exo 2.0 Light";
+  outline: none;
+  border-radius: 4px;
+  color: #fafafa;
+  background: rgba(63, 63, 63, 0.6);
+  border: 2px solid transparent;
+  font-size: 1em;
+  padding: 0.5em;
+  transition: 0.5s;
+}
+
+/* #endregion VOLUNTEEROTHERSERVICE */
+
+/* #endregion SERVICES */
+
+/* #region THEORDERISSENTFOREXEUTION */
+
+.theOrderIsSentForExecution {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 100%;
+  left: 0;
+  transition: 1s;
+}
+
+.theOrderIsSentForExecution div {
+  font-family: "Exo 2.0 Regular";
+  font-size: 4vw;
+}
+
+/* #endregion THEORDERISSENTFOREXEUTION */
+
+/* #endregion THIRDSCREEN */
+
+/* #region OPTIONAL CLASSES */
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: space-evenly;
+}
+
+.padding {
+  padding: 2vw;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+/* #endregion OPTIONAL CLASSES */
+
+/* #region MEDIA */
+
+/* @media (min-width: 576px) {
  
 }
 
@@ -351,4 +1203,6 @@ margin-bottom: 50%;
   .container{
       max-width: 1440px!important;
   }
-}
+} */
+
+/* #endregion MEDIA */
