@@ -28,7 +28,7 @@ const query = util.promisify(connection.query).bind(connection);
 router.get('/', async (req, res) => {
   const some = await query('SELECT * FROM clients');
   console.log(some);
-  res.send(200);
+  res.json(some);
 });
 
 router.get('/users/checkAuth', async (req, res) => {
@@ -44,9 +44,9 @@ router.get('/users/logout', async (req, res) => {
 
 router.post('/users/reg', async (req, res) => {
   if (req.body) {
-  const password = passHash(req.body.password);
-  const SQL = `INSERT INTO \`users\` (\`id\`,\`role\`,\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`email\`,\`home adress\`,\`password hash\`,\`confirmation status\`,\`registration time\`,\`last enter time\`,\`disability group\`,\`restriction type\`) VALUES (NULL, '${req.body.role}','${req.body.firstname}','${req.body.lastname}','${req.body.surname}','${req.body.phone}','${req.body.email}',NULL,'${password}',FALSE,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,NULL)')`;
-    try {
+    const password = passHash(req.body.password);
+    const SQL = `INSERT INTO \`users\` (\`id\`,\`role\`,\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`email\`,\`home address\`,\`password hash\`,\`сonfirmation status\`,\`registration time\`,\`last enter time\`,\`disability group\`,\`restriction type\`) VALUES (NULL, '${req.body.role}','${req.body.firstname}','${req.body.lastname}','${req.body.surname}','${req.body.phone}','${req.body.email}',NULL,'${password}',NULL,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,NULL)`;
+        try {
       const resp = await query(SQL);
       if (resp) {
         req.session.auth = true;
@@ -68,15 +68,17 @@ router.post('/users/reg', async (req, res) => {
 
 router.post('/users/login', async (req, res) => {
   if (req.body) {
-    let SQL = '';
-    const users = await query(`SELECT * FROM \`clients\` WHERE \`type\` = '${req.body.type}'`);
+    const users = await query(`SELECT * FROM \`users\` WHERE \`role\` = '${req.body.role}'`);
     let finded = false;
 
     users.forEach((user) => {
       if (user.email === req.body.email) {
         finded = true;
-        if (passwordHash.verify(req.body.password, user.password_hash)) {
+        if (passwordHash.verify(req.body.password, user['password hash'])) {
           startSession(req, user);
+          req.session.auth = true;
+          req.session.id = user.id;
+          req.session.role = user.role;
           res.json({
             status: 200,
           });
@@ -100,24 +102,10 @@ router.post('/users/login', async (req, res) => {
 
 router.get('/users/:id', async (req, res) => {
   if (req.body) {
-    let table = '';
-    switch (req.body.type) {
-      case '0':
-        table = '`clients`';
-        break;
-      case '1':
-        table = '`volunteers`';
-        break;
-      case '2':
-        table = '`drivers`';
-        break;
-      default:
-        break;
-    }
     try {
-      const users = await query(`SELECT * FROM ${table} WHERE \`id\` = '${req.params.id}'`);
-      if (users.length === 0) throw new Error('Нет такого пользователя');
-      res.json(users);
+      const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.params.id}'`);
+      if (!user) throw new Error('Нет такого пользователя');
+      res.json(user);
     } catch (err) {
       res.json({
         status: 401,
@@ -125,15 +113,11 @@ router.get('/users/:id', async (req, res) => {
       });
     }
   }
-  res.json({
-    status: 401,
-    reason: 'Не указан тип пользователя',
-  });
 });
 
 router.get('/users/me', async (req, res) => {
   if (req.session.auth) {
-    const user = await query(`SELECT * FROM ${req.session.userType} WHERE \`id\` = '${req.session.id}'`);
+    const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
     res.json(user);
   } else {
     res.json({
@@ -142,6 +126,25 @@ router.get('/users/me', async (req, res) => {
     });
   }
 });
+
+router.put('/users/:id', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
+      if (user.id != req.session.id) throw new Error('Это не ваш аккаунт');
+      const update = await query(`UPDATE \`users\` SET (\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`home address\`,\`disability group\`) VALUES ( '${req.body.firstname}', '${req.body.lastname}', '${req.body.surname}', '${req.body.phone}', '${req.body.homeAddress}', '${req.body.disabilityGroup}') WHERE \`id\` = req.session.id)`);
+      if (update) req.json({
+        status: 200,
+        user: update
+      })
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err,
+      });
+    }
+  }
+})
 
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
