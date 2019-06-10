@@ -26,8 +26,8 @@
       <input required type="text" name="FIO" id="FIO" placeholder="ФИО" autocomplete="off">
       <input required type="tel" placeholder="Телефон">
       <input required type="email" placeholder="Электронная почта">
-      <input required type="password" placeholder="Пароль">
-      <input required type="password" placeholder="Повторите пароль">
+      <input required id="pass1" type="password" placeholder="Пароль">
+      <input required id="pass2" type="password" placeholder="Повторите пароль">
       <input type="file">
 
       <a id="alreadyHaveAnAccountLink">Уже есть аккаунт?</a>
@@ -207,6 +207,8 @@
             <option value="To throw out the trash">Выбросить мусор</option>
             <option value="Help with cleaning">Помочь с уборкой</option>
             <option value="Cook food">Приготовить еду</option>
+            <!-- TODO: поменять value  -->
+            <option value="Cook food">Помочь спуститься/подняться</option>
           </select>
           <input class="address" type="text" placeholder="Ваш адрес">
           <div>
@@ -217,7 +219,7 @@
         </form>
       </div>
       <div class="theOrderIsSentForExecution">
-        <div>Ваш заказаз отправлен на выполнение</div>
+        <div>Ваш заказ отправлен на выполнение</div>
       </div>
     </div>
   </div>

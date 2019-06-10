@@ -35,6 +35,8 @@ const btnMedicalAidOrder = document.querySelector('.btnMedicalAidOrder');
 const btnDeliveryOrder = document.querySelector('.btnDeliveryOrder');
 const btnTaxiOrder = document.querySelector('.btnTaxiOrder');
 
+// const firstScreen = document.querySelector('.firstScreen');
+
 function showLoginScreen() {
   html.style.overflow = 'hidden';
   body.style.overflow = 'hidden';
@@ -181,6 +183,44 @@ function switchScreen(btn) {
   }
 }
 
+
+// let sum = 0;
+
+// function mouseScroll(e) {
+//   e.preventDefault();
+//   if (sum < 0) {
+//     sum = 0;
+//   }
+//   if (sum > 200) {
+//     sum = 200;
+//   }
+//   console.clear();
+//   console.log('sum:', sum);
+//   console.log(e.deltaY);
+//   sum += e.deltaY;
+//   console.log('sumNew:', sum);
+
+//   switch (sum) {
+//     case 0:
+//       document.querySelector('.firstScreen').scrollIntoView({
+//         behavior: 'smooth',
+//       });
+//       break;
+//     case 100:
+//       document.querySelector('.secondScreen').scrollIntoView({
+//         behavior: 'smooth',
+//       });
+//       break;
+//     case 200:
+//       document.querySelector('.thirdScreen').scrollIntoView({
+//         behavior: 'smooth',
+//       });
+//       break;
+//     default:
+//       break;
+//   }
+// }
+
 loginBack.onclick = backFromLoginScreen;
 btnLogin.onclick = showLoginScreen;
 
@@ -212,3 +252,5 @@ btnTaxiOrder.onclick = theOrderIsSentForExecutionAnimation;
 btnDeliveryOrder.onclick = theOrderIsSentForExecutionAnimation;
 btnMedicalAidOrder.onclick = theOrderIsSentForExecutionAnimation;
 btnOtherServiceOrder.onclick = theOrderIsSentForExecutionAnimation;
+
+// document.onmousemove = e => e.target.addEventListener('wheel', mouseScroll);

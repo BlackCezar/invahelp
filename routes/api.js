@@ -3,8 +3,6 @@ const mysql = require('mysql');
 const util = require('util');
 const passwordHash = require('password-hash');
 
-const router = express.Router();
-
 function startSession(req) {
   req.session.auth = true;
 }
@@ -12,6 +10,8 @@ function startSession(req) {
 function passHash(password) {
   return passwordHash.generate(password);
 }
+
+const router = express.Router();
 
 const connection = mysql.createConnection({
   host: 'kraycenter.ru',
@@ -46,7 +46,7 @@ router.post('/users/reg', async (req, res) => {
   if (req.body) {
     const password = passHash(req.body.password);
     const SQL = `INSERT INTO \`users\` (\`id\`,\`role\`,\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`email\`,\`home address\`,\`password hash\`,\`сonfirmation status\`,\`registration time\`,\`last enter time\`,\`disability group\`,\`restriction type\`) VALUES (NULL, '${req.body.role}','${req.body.firstname}','${req.body.lastname}','${req.body.surname}','${req.body.phone}','${req.body.email}',NULL,'${password}',NULL,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,NULL,NULL)`;
-        try {
+    try {
       const resp = await query(SQL);
       if (resp) {
         req.session.auth = true;
@@ -131,12 +131,14 @@ router.put('/users/:id', async (req, res) => {
   if (req.session.auth) {
     try {
       const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
-      if (user.id != req.session.id) throw new Error('Это не ваш аккаунт');
+      if (user.id !== req.session.id) throw new Error('Это не ваш аккаунт');
       const update = await query(`UPDATE \`users\` SET (\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`home address\`,\`disability group\`) VALUES ( '${req.body.firstname}', '${req.body.lastname}', '${req.body.surname}', '${req.body.phone}', '${req.body.homeAddress}', '${req.body.disabilityGroup}') WHERE \`id\` = req.session.id)`);
-      if (update) req.json({
-        status: 200,
-        user: update
-      })
+      if (update) {
+        req.json({
+          status: 200,
+          user: update,
+        });
+      }
     } catch (err) {
       res.json({
         status: 401,
@@ -144,34 +146,38 @@ router.put('/users/:id', async (req, res) => {
       });
     }
   }
-})
+});
 
+// TODO: доделать запрос для получения всех заказов в админке
+// router.get('/orders/', async (req, res) => {
+//   if (req.session.auth) {
+//     try {
+//       const orders = await query(`SELECT * FROM \`orders\` WHERE \`${req.session.userType.slice(0, -1)}Id\` = '${req.session.id}'`);
+//       if (orders.length === 0) throw new Error('У вас нет заказов');
+//       res.json(orders);
+//     } catch (err) {
+//       res.json({
+//         status: 404,
+//         reason: err || 'Возникла непредвиденная ошибка',
+//       });
+//     }
+//   } else {
+//     res.json({
+//       status: 401,
+//       reason: 'Вы не авторизованы',
+//     });
+//   }
+// });
+
+// Получение списка заказов текущего пользователя
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      const orders = await query(`SELECT * FROM \`orders\` WHERE \`${req.session.userType.slice(0, -1)}Id\` = '${req.session.id}'`);
-      if (orders.length === 0) throw new Error('У вас нет заказов');
-      res.json(orders);
-    } catch (err) {
-      res.json({
-        status: 404,
-        reason: err || 'Возникла непредвиденная ошибка',
-      });
-    }
-  } else {
-    res.json({
-      status: 401,
-      reason: 'Вы не авторизованы',
-    });
-  }
-});
-
-router.get('/orders/:id', async (req, res) => {
-  if (req.session.auth) {
-    try {
-      const orders = await query(`SELECT * FROM \`orders\` WHERE \`id\` = '${req.params.id}'`);
-      if (orders.length === 0) throw new Error('Нет такого заказа');
-      res.json(orders);
+      const orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.body.id}'`);
+      if (orders.length === 0) res.send('У вас еще нет заказов');
+      else {
+        res.json(orders);
+      }
     } catch (err) {
       res.json({
         status: 401,
@@ -185,10 +191,11 @@ router.get('/orders/:id', async (req, res) => {
   });
 });
 
-router.post('/orders/:id', async (req, res) => {
+// Получение конкретного заказа
+router.put('/orders/:id', async (req, res) => {
   if (req.session.auth) {
     try {
-      const orders = await query(`UPDATE \`orders\` SET services='${req.body.services}', status='${req.body.status}', clientId='${req.body.clientId}', driverId='${req.body.clientId}', volunteerId='${req.body.volunteerId}', payload='${req.body.payload}' WHERE \`id\` = '${req.params.id}'`);
+      const orders = await query(`UPDATE \`orders\` SET service='${req.body.services}', status='${req.body.status}', clientId='${req.body.clientId}', driverId='${req.body.clientId}', volunteerId='${req.body.volunteerId}', payload='${req.body.payload}' WHERE \`id\` = '${req.params.id}'`);
       console.log(orders);
       if (orders.changedRows === 0) throw new Error('Нет такого заказа');
       res.json({
@@ -207,11 +214,10 @@ router.post('/orders/:id', async (req, res) => {
   });
 });
 
-router.post('/orders/add', async (req, res) => {
+router.post('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      const order = await query(`INSERT INTO \`orders\` services='${req.body.services}', status='${req.body.status}', clientId='${req.body.clientId}', driverId='${req.body.clientId}', volunteerId='${req.body.volunteerId}', payload='${req.body.payload}' WHERE \`id\` = '${req.params.id}'`);
-      if (order.insertId === 0) throw new Error('Что-то не так, повторите еще раз');
+      const order = await query(`INSERT INTO \`orders\` (service,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`) VALUES ('${req.body.service}',False,'${req.body['user id']}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}',NULL)`);
       res.json({
         status: 200,
       });
@@ -228,27 +234,29 @@ router.post('/orders/add', async (req, res) => {
   });
 });
 
-router.get('/orders/my', async (req, res) => {
-  if (req.session.auth) {
-    try {
-      const orders = await query(`SELECT * FROM \`orders\` WHERE ${req.session.userType}Id = '${req.session.id}'`);
-      if (orders.length === 0) throw new Error('У вас еще нет заказов');
-      res.json({
-        status: 200,
-        orders,
-      });
-    } catch (err) {
-      res.json({
-        status: 401,
-        reason: err || 'Возникла непредвиденная ошибка',
-      });
-    }
-  }
-  res.json({
-    status: 401,
-    reason: 'Вы не авторизованы',
-  });
-});
+// router.get('/orders/my', async (req, res) => {
+//   if (req.session.auth) {
+//     try {
+//       const orders = await query(`
+//         SELECT * FROM\ `
+//         orders\ ` WHERE ${req.session.userType}Id = '${req.session.id}'`);
+//       if (orders.length === 0) throw new Error('У вас еще нет заказов');
+//       res.json({
+//         status: 200,
+//         orders,
+//       });
+//     } catch (err) {
+//       res.json({
+//         status: 401,
+//         reason: err || 'Возникла непредвиденная ошибка',
+//       });
+//     }
+//   }
+//   res.json({
+//     status: 401,
+//     reason: 'Вы не авторизованы',
+//   });
+// });
 
 router.delete('/orders/:id', async (req, res) => {
   if (req.session.auth) {
