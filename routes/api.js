@@ -70,8 +70,8 @@ router.post('/users/login', async (req, res) => {
   if (req.body) {
     const users = await query(`SELECT * FROM \`users\` WHERE \`role\` = '${req.body.role}'`);
     let finded = false;
-
     users.forEach((user) => {
+      console.log(user.email + ', ' + req.body.email);
       if (user.email === req.body.email) {
         finded = true;
         if (passwordHash.verify(req.body.password, user['password hash'])) {
