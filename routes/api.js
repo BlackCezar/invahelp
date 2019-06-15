@@ -25,11 +25,11 @@ connection.connect();
 const query = util.promisify(connection.query).bind(connection);
 
 /* GET home page. */
-router.get('/', async (req, res) => {
-  const some = await query('SELECT * FROM clients');
-  console.log(some);
-  res.json(some);
-});
+// router.get('/', async (req, res) => {
+//   const some = await query('SELECT * FROM clients');
+//   console.log(some);
+//   res.json(some);
+// });
 
 router.get('/users/checkAuth', async (req, res) => {
   if (req.session.auth) {
@@ -66,12 +66,12 @@ router.post('/users/reg', async (req, res) => {
   }
 });
 
-router.post('/users/login', async (req, res) => {
+router.get('/users/login', async (req, res) => {
   if (req.body) {
     const users = await query(`SELECT * FROM \`users\` WHERE \`role\` = '${req.body.role}'`);
     let finded = false;
     users.forEach((user) => {
-      console.log(user.email + ', ' + req.body.email);
+      console.log(`${user.email}, ${req.body.email}`);
       if (user.email === req.body.email) {
         finded = true;
         if (passwordHash.verify(req.body.password, user['password hash'])) {
@@ -152,7 +152,9 @@ router.put('/users/:id', async (req, res) => {
 // router.get('/orders/', async (req, res) => {
 //   if (req.session.auth) {
 //     try {
-//       const orders = await query(`SELECT * FROM \`orders\` WHERE \`${req.session.userType.slice(0, -1)}Id\` = '${req.session.id}'`);
+//       const orders = await query
+// (`SELECT * FROM \`orders\` WHERE \`${req.session.userType.
+// slice(0, -1)}Id\` = '${req.session.id}'`);
 //       if (orders.length === 0) throw new Error('У вас нет заказов');
 //       res.json(orders);
 //     } catch (err) {
@@ -217,7 +219,7 @@ router.put('/orders/:id', async (req, res) => {
 router.post('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      const order = await query(`INSERT INTO \`orders\` (service,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`) VALUES ('${req.body.service}',False,'${req.body['user id']}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}',NULL)`);
+      await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`) VALUES ('${req.body.service}',False,'${req.body['user id']}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}')`);
       res.json({
         status: 200,
       });
@@ -282,10 +284,9 @@ router.delete('/orders/:id', async (req, res) => {
 router.get('/orders/checkStatus/:id', async (req, res) => {
   if (req.session.auth) {
     try {
-      const order = await query(`SELECT * FROM \`orders\` WHERE id = '${req.params.id}'`);
+      await query(`SELECT * FROM \`orders\` WHERE id = '${req.params.id}'`);
       res.json({
         status: 200,
-        status: order.status,
       });
     } catch (err) {
       res.json({
