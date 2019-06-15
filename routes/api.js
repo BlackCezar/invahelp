@@ -68,7 +68,7 @@ router.post('/users/reg', async (req, res) => {
 
 router.get('/users/login', async (req, res) => {
   if (req.body) {
-    const users = await query(`SELECT * FROM \`users\` WHERE \`role\` = '${req.body.role}'`);
+    const users = await query(`SELECT * FROM \`users\``);
     let finded = false;
     users.forEach((user) => {
       console.log(`${user.email}, ${req.body.email}`);
