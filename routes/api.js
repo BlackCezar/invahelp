@@ -175,10 +175,14 @@ router.put('/users/:id', async (req, res) => {
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      const orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.body.id}'`);
-      if (orders.length === 0) res.send('У вас еще нет заказов');
+      const orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.session.id}'`);
+      if (orders.length === 0) orders = await query(`SELECT * FROM \`orders\` WHERE \`executor id\` = '${req.body.id}'`);
+      if (orders.length === 0) res.json({
+        status: 404,
+        reason: 'У вас еще нет заказов'});
       else {
-        res.json(orders);
+        res.json({status: 200,
+                  orders: orders});
       }
     } catch (err) {
       res.json({
