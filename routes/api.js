@@ -252,7 +252,7 @@ router.get('/services/', async (req, res) => {
         reason: err || 'Возникла непредвиденная ошибка',
       });
     }
-  }
+  } else
   res.json({
     status: 401,
     reason: 'Вы не авторизованы',
