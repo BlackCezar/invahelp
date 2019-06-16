@@ -20,5 +20,21 @@
 
 document.onload = () => {
   const xhr = new XMLHttpRequest();
-  xhr.open('GET', '/orders/');
+  xhr.open('GET', 'api/orders/');
+  xhr.send();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      if (xhr.responseText === '') {
+        alert('Заказов нет');
+      } else {
+        console.log(xhr.responseText);
+        // const response = JSON.parse(xhr.responseText);
+        // response.forEach((obj) => {
+        // const el = JSON.parse(obj);
+        // lastID = el.id;
+        // addTodoItem(el.text);
+        // });
+      }
+    }
+  };
 };
