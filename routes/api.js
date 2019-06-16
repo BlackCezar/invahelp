@@ -238,7 +238,26 @@ router.post('/orders/', async (req, res) => {
     reason: 'Вы не авторизованы',
   });
 });
-
+router.get('/services/', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const services = await query(`SELECT * FROM services`);
+      res.json({
+        status: 200,
+        services: services
+      });
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
+    }
+  }
+  res.json({
+    status: 401,
+    reason: 'Вы не авторизованы',
+  });
+});
 // router.get('/orders/my', async (req, res) => {
 //   if (req.session.auth) {
 //     try {
