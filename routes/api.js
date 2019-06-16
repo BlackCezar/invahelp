@@ -66,7 +66,7 @@ router.post('/users/reg', async (req, res) => {
   }
 });
 
-router.get('/users/login', async (req, res) => {
+router.post('/users/login', async (req, res) => {
   if (req.body) {
     const users = await query('SELECT * FROM `users`');
     let finded = false;
@@ -175,10 +175,14 @@ router.put('/users/:id', async (req, res) => {
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      const orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.body.id}'`);
-      if (orders.length === 0) res.send('У вас еще нет заказов');
+      const orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.session.id}'`);
+      if (orders.length === 0) orders = await query(`SELECT * FROM \`orders\` WHERE \`executor id\` = '${req.body.id}'`);
+      if (orders.length === 0) res.json({
+        status: 404,
+        reason: 'У вас еще нет заказов'});
       else {
-        res.json(orders);
+        res.json({status: 200,
+                  orders: orders});
       }
     } catch (err) {
       res.json({
@@ -186,8 +190,7 @@ router.get('/orders/', async (req, res) => {
         reason: err || 'Возникла непредвиденная ошибка',
       });
     }
-  }
-  res.json({
+  } else res.json({
     status: 401,
     reason: 'Вы не авторизованы',
   });
@@ -235,7 +238,26 @@ router.post('/orders/', async (req, res) => {
     reason: 'Вы не авторизованы',
   });
 });
-
+router.get('/services/', async (req, res) => {
+  if (req.session.auth) {
+    try {
+      const services = await query(`SELECT * FROM services`);
+      res.json({
+        status: 200,
+        services: services
+      });
+    } catch (err) {
+      res.json({
+        status: 401,
+        reason: err || 'Возникла непредвиденная ошибка',
+      });
+    }
+  } else
+  res.json({
+    status: 401,
+    reason: 'Вы не авторизованы',
+  });
+});
 // router.get('/orders/my', async (req, res) => {
 //   if (req.session.auth) {
 //     try {
