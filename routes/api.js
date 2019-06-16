@@ -190,8 +190,7 @@ router.get('/orders/', async (req, res) => {
         reason: err || 'Возникла непредвиденная ошибка',
       });
     }
-  }
-  res.json({
+  } else res.json({
     status: 401,
     reason: 'Вы не авторизованы',
   });
