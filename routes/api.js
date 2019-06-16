@@ -44,8 +44,12 @@ router.post('/users/reg', async (req, res) => {
       if (resp) {
         req.session.auth = true;
         req.session.id = resp.id;
-        req.session.role = req.body.type;
-        res.sendStatus(200);
+        req.session.role = req.body.role;
+        res.json({
+          status: 200,
+          id: resp.id,
+          role: resp.role,
+        });
       } else throw Error();
     } catch (err) {
       console.log(err);
@@ -112,8 +116,12 @@ router.get('/users/:id', async (req, res) => {
 
 router.get('/users/me', async (req, res) => {
   if (req.session.auth) {
-    const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
-    res.json(user);
+    const user = await query(`
+    SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
+    res.json({
+      status: 200,
+      user,
+    });
   } else {
     res.json({
       status: 401,
@@ -125,7 +133,8 @@ router.get('/users/me', async (req, res) => {
 router.put('/users/:id', async (req, res) => {
   if (req.session.auth) {
     try {
-      const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
+      const user = await query(`
+      SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
       if (user.id !== req.session.id) throw new Error('Это не ваш аккаунт');
       const update = await query(`UPDATE \`users\` SET (\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`home address\`,\`disability group\`) VALUES ( '${req.body.firstname}', '${req.body.lastname}', '${req.body.surname}', '${req.body.phone}', '${req.body.homeAddress}', '${req.body.disabilityGroup}') WHERE \`id\` = req.session.id)`);
       if (update) {
@@ -147,8 +156,7 @@ router.put('/users/:id', async (req, res) => {
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      if (req.session.role === 0) {
-        console.log('Вы не админ');
+      if (req.session.role === '4') {
         const orders = await query('SELECT * FROM `orders`');
         if (orders.length === 0) {
           res.json({
@@ -217,7 +225,7 @@ router.put('/orders/:id', async (req, res) => {
 router.post('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`) VALUES ('${req.body.service}',False,'${req.body['user id']}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}')`);
+      await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`) VALUES ('${req.body['service id']}',False,'${req.body['user id']}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}')`);
       res.json({
         status: 200,
       });

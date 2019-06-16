@@ -24,7 +24,7 @@
         <option value="2">Водитель</option>
       </select>
       <input required type="text" name="FIO" id="FIO" placeholder="ФИО" autocomplete="off">
-      <input required type="tel" placeholder="Телефон">
+      <input type="tel" pattern="[0-9]{11}" placeholder="Телефон" required>
       <input required type="email" placeholder="Электронная почта">
       <input required id="pass1" type="password" placeholder="Пароль">
       <input required id="pass2" type="password" placeholder="Повторите пароль">
@@ -39,14 +39,14 @@
     <form id="loginForm">
       <i id="loginBack" class="fas fa-arrow-circle-up"></i>
       <div id="helloText">Авторизация</div>
-      <input type="text" name="login" id="login" placeholder="Логин" autocomplete="off">
-      <input type="password" placeholder="Пароль">
-      <a href="#">Забыли пароль?</a>
-      <button>Войти</button>
+      <input type="text" id="inputEmail" placeholder="Электронная почта" autocomplete="off">
+      <input type="password" id="inputPassword" placeholder="Пароль">
+      <a id="dontHaveAnAccountLink">Еще нет аккаунта?</a>
+      <button id="loginSubmit">Войти</button>
     </form>
   </section>
 
-  <div class="firstScreen">
+  <div class=" firstScreen">
     <header>
       <a><img id="logoImg" src="img/FIRSTSCREEN/Logo.png" alt="Логотип проекта"></a>
       <div id="logo-text">помощь людям с особыми потребностями</div>
@@ -67,14 +67,17 @@
   <div class="secondScreen">
     <div class="about">
       <div class="mainText">Почему мы этим занимаемся?</div>
-      <div class="secondText">Потому что наш проект считает, что каждый человек, проживающий в России, имеет право на
-        полноценную красочную жизнь даже если имеет особые потребности, потому что Россия - страна возможностей!</div>
+      <div class="secondText">Потому что наш проект считает, что каждый человек, проживающий в России, имеет право
+        на
+        полноценную красочную жизнь даже если имеет особые потребности, потому что Россия - страна возможностей!
+      </div>
       <div class="features">
         <div class="mainText">Преимущества нашего проекта</div>
         <div class="items">
           <div class="item">
             <div class="itemTitle"><i class="fas fa-tachometer-alt"></i> Скорость</div>
-            <div class="itemText"> Заявки принимаются и обрабатываются с высокой скоростью - это гарантирует то, что
+            <div class="itemText"> Заявки принимаются и обрабатываются с высокой скоростью - это гарантирует то,
+              что
               <span>ВАМ НЕ ПРИДЕТСЯ ЖДАТЬ</span> когда
               к вам
               приедет автомобиль или придет человек чтобы помочь вам.
@@ -119,11 +122,11 @@
         <form class="taxiOrderForm">
           <button class="btnTaxiOrderBack" data-destination="from taxi to main">Вернуться</button>
           <div class="title">Заказ такси</div>
-          <input type="text" placeholder="Ваш адрес">
-          <input type="text" placeholder="Адрес назначения">
+          <input type="text" id="clientAddress" placeholder="Ваш адрес">
+          <input type="text" id="destinationAddress" placeholder="Адрес назначения">
           <div>
             <div>Дата и время начала</div>
-            <input id="datetime" type="datetime-local">
+            <input id="datetime-taxi" type="datetime-local">
           </div>
           <button class="btnTaxiOrder" data-screenToHide="taxi">Заказать
           </button>
@@ -149,15 +152,15 @@
         <form class="deliveryOrderForm">
           <button class="btnDeliveryOrderBack" data-destination="from delivery to volunteerServices">Вернуться</button>
           <div class="title">Заказ доставки</div>
-          <select class="type">
-            <option value="products">Продукты</option>
-            <option value="medicines">Лекарства</option>
+          <select id="serviceId" class="type">
+            <option value="1">Продукты</option>
+            <option value="2">Лекарства</option>
           </select>
-          <input class="shoppingList" type="text" placeholder="Список покупок">
-          <input class="address" type="text" placeholder="Адрес доставки">
+          <input class="shoppingList" id="shoppingListDelivery" type="text" placeholder="Список покупок">
+          <input class="address" id="clientAddressDelivery" type="text" placeholder="Адрес доставки">
           <div>
             <div>Дата и время начала</div>
-            <input id="datetime" type="datetime-local">
+            <input id="datetime-delivery" type="datetime-local">
           </div>
           <button class="btnDeliveryOrder" data-screenToHide="delivery">Заказать</button>
         </form>
@@ -173,7 +176,8 @@
         <div class="container">
           <button class="btnVolunteerMedicalAidService"
             data-destination="from otherServices to volunteerMedicalAidService">
-            <div class="text" data-destination="from otherServices to volunteerMedicalAidService">Медицинская помощь
+            <div class="text" data-destination="from otherServices to volunteerMedicalAidService">Медицинская
+              помощь
             </div>
           </button>
           <button class="btnVolunteerOtherService">
@@ -227,6 +231,5 @@
 </body>
 
 <script src="js/app.js"></script>
-<script src="js/registration.js"></script>
 
 </html>
