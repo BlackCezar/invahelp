@@ -6,7 +6,7 @@ const logger = require('morgan');
 const stylus = require('stylus');
 const session = require('cookie-session');
 const indexRouter = require('./routes/index');
-// const usersRouter = require('./routes/users');
+const adminRouter = require('./routes/admin');
 const apiRouter = require('./routes/api');
 
 const app = express();
@@ -32,8 +32,8 @@ app.use(stylus.middleware(path.join(__dirname, 'public')));
 app.use(express.static(`${__dirname}/public/`));
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 app.use('/api', apiRouter);
+app.use('/admin', adminRouter);
 
 
 // catch 404 and forward to error handler

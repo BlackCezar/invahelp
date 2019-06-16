@@ -1,0 +1,40 @@
+body,
+html {
+  /* width: 100vh; */
+  background: linear-gradient(45deg, #1f0427, #0c0b2f);
+  color: #fafafa;
+}
+
+.title {
+  text-align: center;
+  width: 100%;
+  padding-top: 1vw;
+  box-sizing: border-box;
+  font-family: "Exo 2.0 Regular";
+  font-size: 2.5vw;
+}
+
+table {
+  font-family: "Exo 2.0 Light";
+  font-size: 0.9em;
+  border: 2px solid #fafafa;
+  border-radius: 20px;
+  border-spacing: 5px;
+  border-collapse: separate;
+  text-align: center;
+  padding: 5px;
+  margin-top: 20px;
+}
+
+td {
+  padding: 5px;
+  background: #555555;
+}
+
+/* tr:hover {
+  background: rgb(107, 126, 0);
+} */
+
+/* td:hover {
+  background: #6b7e00;
+} */
