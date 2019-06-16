@@ -66,7 +66,7 @@ router.post('/users/reg', async (req, res) => {
   }
 });
 
-router.get('/users/login', async (req, res) => {
+router.post('/users/login', async (req, res) => {
   if (req.body) {
     const users = await query(`SELECT * FROM \`users\``);
     let finded = false;
