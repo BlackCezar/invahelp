@@ -576,6 +576,7 @@ function createDeliveryOrder(e) {
     'destination address': 'Не требуется',
     'shopping list': sp.value,
     'payment method': 'Не требуется',
+    comment: null,
   });
   xhr.send(data);
   xhr.onreadystatechange = () => {
