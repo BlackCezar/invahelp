@@ -522,7 +522,7 @@ function createTaxiOrder(e) {
     'destination address': daddress.value,
     'shopping list': 'Не требуется',
     'payment method': 'Не требуется',
-    comments: null,
+    comment: null,
   });
   xhr.send(data);
   xhr.onreadystatechange = () => {
