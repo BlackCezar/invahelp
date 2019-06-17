@@ -44,12 +44,8 @@ router.post('/users/reg', async (req, res) => {
       if (resp) {
         req.session.auth = true;
         req.session.id = resp.id;
-        req.session.role = req.body.role;
-        res.json({
-          status: 200,
-          id: resp.id,
-          role: resp.role,
-        });
+        req.session.role = req.body.type;
+        res.sendStatus(200);
       } else throw Error();
     } catch (err) {
       console.log(err);
@@ -116,12 +112,8 @@ router.get('/users/:id', async (req, res) => {
 
 router.get('/users/me', async (req, res) => {
   if (req.session.auth) {
-    const user = await query(`
-    SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
-    res.json({
-      status: 200,
-      user,
-    });
+    const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
+    res.json(user);
   } else {
     res.json({
       status: 401,
@@ -133,8 +125,7 @@ router.get('/users/me', async (req, res) => {
 router.put('/users/:id', async (req, res) => {
   if (req.session.auth) {
     try {
-      const user = await query(`
-      SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
+      const user = await query(`SELECT * FROM \`users\` WHERE \`id\` = '${req.session.id}'`);
       if (user.id !== req.session.id) throw new Error('Это не ваш аккаунт');
       const update = await query(`UPDATE \`users\` SET (\`firstname\`,\`lastname\`,\`surname\`,\`phone\`,\`home address\`,\`disability group\`) VALUES ( '${req.body.firstname}', '${req.body.lastname}', '${req.body.surname}', '${req.body.phone}', '${req.body.homeAddress}', '${req.body.disabilityGroup}') WHERE \`id\` = req.session.id)`);
       if (update) {
@@ -151,12 +142,27 @@ router.put('/users/:id', async (req, res) => {
     }
   }
 });
-
+router.get('/orders/me', async(req,res) => {
+let orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.session.id}'`);
+if (orders.length === 0) orders = await query(`SELECT * FROM \`orders\` WHERE \`executor id\` = '${req.body.id}'`);
+if (orders.length === 0) {
+          res.json({
+            status: 404,
+            reason: 'У вас еще нет заказов',
+          });
+        } else {
+          res.json({
+            status: 200,
+            orders:orders
+          });
+        }
+})
 // Получение списка заказов текущего пользователя
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      if (req.session.role === '4') {
+      if (req.session.role === 0) {
+        console.log('Вы не админ');
         const orders = await query('SELECT * FROM `orders`');
         if (orders.length === 0) {
           res.json({
@@ -225,9 +231,10 @@ router.put('/orders/:id', async (req, res) => {
 router.post('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`) VALUES ('${req.body['service id']}',False,'${req.body['user id']}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}')`);
+     let q =  await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`, \`comment\`) VALUES ('${req.body.service}',0 ,'${req.session.id}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}','${req.body.comment}')`);
       res.json({
         status: 200,
+        q: q
       });
     } catch (err) {
       res.json({
