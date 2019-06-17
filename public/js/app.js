@@ -328,7 +328,7 @@ function login(e) {
 loginSubmit.onclick = login;
 
 document.onreadystatechange = () => {
-  showLoginScreen();
+  // showLoginScreen();
   logout();
 };
 
