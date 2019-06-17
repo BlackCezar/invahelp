@@ -142,21 +142,21 @@ router.put('/users/:id', async (req, res) => {
     }
   }
 });
-router.get('/orders/me', async(req,res) => {
-let orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.session.id}'`);
-if (orders.length === 0) orders = await query(`SELECT * FROM \`orders\` WHERE \`executor id\` = '${req.body.id}'`);
-if (orders.length === 0) {
-          res.json({
-            status: 404,
-            reason: 'У вас еще нет заказов',
-          });
-        } else {
-          res.json({
-            status: 200,
-            orders:orders
-          });
-        }
-})
+router.get('/orders/me', async (req, res) => {
+  let orders = await query(`SELECT * FROM \`orders\` WHERE \`user id\` = '${req.session.id}'`);
+  if (orders.length === 0) orders = await query(`SELECT * FROM \`orders\` WHERE \`executor id\` = '${req.body.id}'`);
+  if (orders.length === 0) {
+    res.json({
+      status: 404,
+      reason: 'У вас еще нет заказов',
+    });
+  } else {
+    res.json({
+      status: 200,
+      orders,
+    });
+  }
+});
 // Получение списка заказов текущего пользователя
 router.get('/orders/', async (req, res) => {
   if (req.session.auth) {
@@ -231,10 +231,10 @@ router.put('/orders/:id', async (req, res) => {
 router.post('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-     let q =  await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`, \`comment\`) VALUES ('${req.body.service}',0 ,'${req.session.id}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}','${req.body.comment}')`);
+      const q = await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`, \`comment\`) VALUES ('${req.body.service}',0 ,'${req.session.id}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}','${req.body.comment}')`);
       res.json({
         status: 200,
-        q: q
+        q,
       });
     } catch (err) {
       res.json({
