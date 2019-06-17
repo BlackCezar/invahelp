@@ -153,7 +153,7 @@ if (orders.length === 0) {
         } else {
           res.json({
             status: 200,
-            orders,
+            orders:orders
           });
         }
 })
@@ -231,9 +231,10 @@ router.put('/orders/:id', async (req, res) => {
 router.post('/orders/', async (req, res) => {
   if (req.session.auth) {
     try {
-      await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`) VALUES ('${req.body.service}',False,'${req.body['user id']}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}')`);
+     let q =  await query(`INSERT INTO \`orders\` (\`service id\`,\`execution status\`,\`user id\`,\`executor id\`,\`registration time\`,\`appointed time\`,\`date of completion\`,\`client address\`,\`destination address\`,\`shopping list\`,\`payment method\`, \`comment\`) VALUES ('${req.body.service}',0 ,'${req.session.id}',NULL,CURRENT_TIMESTAMP,'${req.body['appointed time']}',NULL,'${req.body['client address']}','${req.body['destination address']}','${req.body['shopping list']}','${req.body['payment method']}','${req.body.comment}')`);
       res.json({
         status: 200,
+        q: q
       });
     } catch (err) {
       res.json({
