@@ -161,7 +161,7 @@ router.get('/orders/', async (req, res) => {
         if (orders.length === 0) {
           res.json({
             status: 404,
-            reason: 'У вас еще нет заказов',
+            reason: 'Заказов нет',
           });
         } else {
           res.json({
