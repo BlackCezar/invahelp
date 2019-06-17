@@ -300,7 +300,7 @@ function login(e) {
         };
 
         if (session.role === '4') {
-          window.open('http://localhost:3000/admin', '_self');
+          window.open('https://invahelp.herokuapp.com/admin', '_self');
         } else {
           xhr.open('GET', `api/users/${session.id}`);
           xhr.send();
